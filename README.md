@@ -8,7 +8,7 @@ This app will allow you to have a text editor without internet
 
 
 ## Local host testing
-![testing]images/localhost.png)
+![testing](images/localhost.png)
 
 ## Offline Network changed
 ![Offline](images/offline.png)
