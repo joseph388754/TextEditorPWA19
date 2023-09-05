@@ -18,12 +18,58 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        title: 'Jate'
+      }),
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        filename: 'install.html',
+        chunks: ['install'],
+      }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js'
+      }),
+      new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
+        name: 'Number One Text Editor',
+        short_name: 'Jate',
+        description : 'BesT Text editor with full functionality offline',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
+        start_url: '/',
+        publicPath: '/',
+        crossorigin: 'use-credentials',
+        icons: [
+          {
+            src: path.resolve('./src/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
+          }
+        ]
+      })   
     ],
 
     module: {
       rules: [
-        
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets:['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime']  
+            }
+          }
+        } 
       ],
     },
   };
